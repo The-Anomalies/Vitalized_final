@@ -20,6 +20,7 @@ class SignUpForm extends StatelessWidget {
                 fontSize: 26,
               ),
             ),
+            
             const SizedBox(height: 16),
             Form(
               child: Column(
