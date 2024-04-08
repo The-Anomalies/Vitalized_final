@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onboard_animation/components/faculty_sigin.dart';
 import 'package:onboard_animation/components/landed_content.dart';
 import 'package:onboard_animation/components/sing_up_form.dart';
 import 'package:onboard_animation/components/student_sign.dart';
@@ -42,6 +43,7 @@ class _OnboardContentState extends State<OnboardContent> {
                     LandingContent(),
                     SignUpForm(),
                     Student_signin(),
+                    Faculty_signin(),
                   ],
                 ),
               ),
