@@ -219,7 +219,16 @@ class Faculty_signin extends StatelessWidget {
                   String _designation = _designationStec.text;
                   String _linkedIn = _linkedInSTEC.text;
 
-                  registeredFaculty_profile newFaculty = FacultyProfile(empid: empid, email: email, domain: domain, school: school, designation: designation, facultyname: facultyname, contactnumber: contactnumber, linkedinid: linkedinid, password: password);
+                  FacultyProfile newFaculty = FacultyProfile(
+                      empid: _reg,
+                      email: _email,
+                      domain: _domain,
+                      school: _school,
+                      designation: _designation,
+                      facultyname: _name,
+                      contactnumber: _cono,
+                      linkedinid: _linkedIn,
+                      password: _password);
 
                   await Supabase.instance.client.from('student').insert({
                     'reg_no': _reg,

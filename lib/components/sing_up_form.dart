@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:onboard_animation/data/dummy_data.dart';
 import 'package:onboard_animation/model/Faculty_Profile.dart';
 import 'package:onboard_animation/model/StudentProfile.dart';
+import 'package:onboard_animation/pages/home.dart';
 
 class SignUpForm extends StatelessWidget {
   SignUpForm({Key? key}) : super(key: key);
@@ -67,42 +68,46 @@ class SignUpForm extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      String desiredId = _registerETC.text;
-                      FacultyProfile? desiredFacultyProfile =
-                          registeredFaculty_profile.firstWhere(
-                              (faculty) => faculty.id == desiredId,
-                              orElse: () => null);
-                      StudentProfile? desiredStudentProfile =
-                          registeredFaculty_profile.firstWhere(
-                              (faculty) => faculty.id == desiredId,
-                              orElse: () => null);
-                      bool auth = (desiredStudentProfile!.password ==
-                              _passwordTC.text ||
-                          desiredFacultyProfile!.password == _passwordTC.text);
-                      if (desiredFacultyProfile != null && auth) {
-                        Navigator.push(
+                      // String desiredId = _registerETC.text;
+                      // FacultyProfile? desiredFacultyProfile =
+                      //     registeredFaculty_profile.firstWhere(
+                      //         (faculty) => faculty.id == desiredId,
+                      //         orElse: () => null);
+                      // StudentProfile? desiredStudentProfile =
+                      //     registeredFaculty_profile.firstWhere(
+                      //         (faculty) => faculty.id == desiredId,
+                      //         orElse: () => null);
+                      // bool auth = (desiredStudentProfile!.password ==
+                      //         _passwordTC.text ||
+                      //     desiredFacultyProfile!.password == _passwordTC.text);
+                      // if (desiredFacultyProfile != null && auth) {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) =>
+                      //           SignUpForm(), //we have to change this value
+                      //     ),
+                      //   );
+                      // } else if (desiredStudentProfile != null && auth) {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) =>
+                      //           SignUpForm(), //we have to change this value
+                      //     ),
+                      //   );
+                      // } else {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     const SnackBar(
+                      //       content: Text('user not found'),
+                      //     ),
+                      //   );
+                      // }
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                SignUpForm(), //we have to change this value
-                          ),
-                        );
-                      } else if (desiredStudentProfile != null && auth) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SignUpForm(), //we have to change this value
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('user not found'),
-                          ),
-                        );
-                      }
-                      ;
+                            builder: (context) => const HomeScreen(),
+                          ));
                     },
                     child: const Text('Sign up'),
                   ),
