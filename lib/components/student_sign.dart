@@ -315,9 +315,9 @@ class Student_signin extends StatelessWidget {
                       passoutyear: _yop,
                       email: _email,
                       password: _password);
-                  regidteredStudent_profile.add(newStudent);
+                  registeredStudent_profile.add(newStudent);
                   print(newStudent.gender);
-                  print(regidteredStudent_profile.length);
+                  print(registeredStudent_profile.length);
                   await Supabase.instance.client.from('student').insert({
                     'reg_no': _reg,
                     'password': _password,

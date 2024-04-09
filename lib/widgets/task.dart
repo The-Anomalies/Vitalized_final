@@ -18,7 +18,7 @@ class TaskWidget extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                width: 200,
+                width: 100,
                 child: Text(
                   "${taskModel.from.hour} PM",
                   style: Theme.of(context)
@@ -28,11 +28,11 @@ class TaskWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 70,
+                width: 270,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     gradient: AppColors.getDarkLinearGradient(
-                      Colors.blue,
+                      Colors.pink,
                     ),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [

@@ -118,8 +118,9 @@ class _FindProjState extends State<FindProjScreen> {
             Text(
               "PENDING PROJECTS",
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    color: Colors
-                        .black, // Change the color to white, or any other color you prefer
+                  color: Colors.black,
+                  fontSize:
+                      30 // Change the color to white, or any other color you prefer
                   ),
             ),
             const SizedBox(
@@ -143,7 +144,7 @@ class _FindProjState extends State<FindProjScreen> {
 
   SizedBox _buildDateDays() {
     return SizedBox(
-      height: 150,
+      height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: days,
@@ -180,19 +181,20 @@ class _FindProjState extends State<FindProjScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "${index + 1}",
-                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                        color: todaysDate.day == (index + 1)
-                            ? Colors.white
-                            : null),
-                  ),
+                  Text("${index + 1}",
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                            fontSize: 24,
+                            color: todaysDate.day == (index + 1)
+                                ? Colors.white
+                                : null,
+                          )),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
                     DateFormat('EEE').format(monthDate),
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          fontSize: 24,
                           color: todaysDate.day == (index + 1)
                               ? Colors.white
                               : null,
