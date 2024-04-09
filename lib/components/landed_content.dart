@@ -12,7 +12,7 @@ class LandingContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Find local \ncommunity events",
+            "VITALIZED",
             style: Theme.of(context)
                 .textTheme
                 .headlineLarge!
@@ -21,10 +21,15 @@ class LandingContent extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Text(
-            "Get involved with what's happening near you.",
-            style: TextStyle(fontSize: 24, color: Colors.blueGrey.shade300),
+          const Text(
+            "Connect,\nCollaborate, Innovate\nWhere Ideas Meet Opportunity",
+            style: TextStyle(
+                fontSize: 24, color: const Color.fromARGB(255, 35, 39, 40)),
           ),
+          // Text(
+          //   "Where Ideas Meet Opportunity",
+          //   style: TextStyle(fontSize: 24, color: Colors.blueGrey.shade300),
+          // ),
         ],
       ),
     );

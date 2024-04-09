@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:onboard_animation/data/dummy_data.dart';
 import 'package:onboard_animation/model/Faculty_Profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:onboard_animation/pages/home.dart';
 
 class Faculty_signin extends StatelessWidget {
   Faculty_signin({Key? key}) : super(key: key);
@@ -229,18 +230,35 @@ class Faculty_signin extends StatelessWidget {
                       contactnumber: _cono,
                       linkedinid: _linkedIn,
                       password: _password);
-
-                  await Supabase.instance.client.from('student').insert({
-                    'reg_no': _reg,
-                    'password': _password,
-                    'name': _name,
-                    'email': _email,
-                    'contact_number': _cono,
-                    'designation': _designation,
-                    'LinkedIn_id': _linkedIn,
-                    'school': _school,
-                    'Domain': _domain,
-                  });
+                  bool _nnull = newFaculty.contactnumber != '' &&
+                      newFaculty.designation != '' &&
+                      newFaculty.domain != '' &&
+                      newFaculty.email != '' &&
+                      newFaculty.empid != '' &&
+                      newFaculty.facultyname != '' &&
+                      newFaculty.linkedinid != '' &&
+                      newFaculty.password != '' &&
+                      newFaculty.school != '';
+                  if (_nnull) {
+                    registeredFaculty_profile.add(newFaculty);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                    await Supabase.instance.client.from('student').insert({
+                      'reg_no': _reg,
+                      'password': _password,
+                      'name': _name,
+                      'email': _email,
+                      'contact_number': _cono,
+                      'designation': _designation,
+                      'LinkedIn_id': _linkedIn,
+                      'school': _school,
+                      'Domain': _domain,
+                    });
+                  }
                 },
                 child: const Text('sign in'),
               ),

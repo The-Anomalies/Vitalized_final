@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:onboard_animation/data/dummy_data.dart';
 import 'package:onboard_animation/model/Faculty_Profile.dart';
 import 'package:onboard_animation/model/StudentProfile.dart';
@@ -9,8 +9,7 @@ class SignUpForm extends StatelessWidget {
   SignUpForm({Key? key}) : super(key: key);
   final _registerETC = TextEditingController();
   final _passwordTC = TextEditingController();
-  // final _notesStream =
-  //     Supabase.instance.client.from('student').stream(primaryKey: ['reg_no']);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +25,6 @@ class SignUpForm extends StatelessWidget {
                 fontSize: 26,
               ),
             ),
-
             const SizedBox(height: 16),
             Form(
               child: Column(
@@ -63,65 +61,93 @@ class SignUpForm extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      // String desiredId = _registerETC.text;
-                      // FacultyProfile? desiredFacultyProfile =
-                      //     registeredFaculty_profile.firstWhere(
-                      //         (faculty) => faculty.id == desiredId,
-                      //         orElse: () => null);
-                      // StudentProfile? desiredStudentProfile =
-                      //     registeredFaculty_profile.firstWhere(
-                      //         (faculty) => faculty.id == desiredId,
-                      //         orElse: () => null);
-                      // bool auth = (desiredStudentProfile!.password ==
-                      //         _passwordTC.text ||
-                      //     desiredFacultyProfile!.password == _passwordTC.text);
-                      // if (desiredFacultyProfile != null && auth) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           SignUpForm(), //we have to change this value
-                      //     ),
-                      //   );
-                      // } else if (desiredStudentProfile != null && auth) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           SignUpForm(), //we have to change this value
-                      //     ),
-                      //   );
-                      // } else {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text('user not found'),
-                      //     ),
-                      //   );
-                      // }
-                      Navigator.push(
+                      String desiredId = _registerETC.text;
+                      FacultyProfile? desiredFacultyProfile =
+                          registeredFaculty_profile.firstWhere(
+                        (faculty) => faculty.empid == desiredId,
+                        orElse: () => const FacultyProfile(
+                          empid: '',
+                          email: '',
+                          domain: '',
+                          school: '',
+                          designation: '',
+                          facultyname: '',
+                          contactnumber: '',
+                          linkedinid: '',
+                          password: '',
+                        ),
+                      );
+                      StudentProfile? desiredStudentProfile =
+                          registeredStudent_profile.firstWhere(
+                        (student) => student.registrationnumber == desiredId,
+                        orElse: () => const StudentProfile(
+                          registrationnumber: '',
+                          gender: '',
+                          programme: '',
+                          school: '',
+                          skillsets: '',
+                          studentname: '',
+                          contactnumber: '',
+                          linkedinid: '',
+                          githubid: '',
+                          technicallanguages: '',
+                          passoutyear: '',
+                          email: '',
+                          password: '',
+                        ),
+                      );
+
+                      if (desiredFacultyProfile.email != '' &&
+                          desiredFacultyProfile.password == _passwordTC.text) {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const HomeScreen(),
-                          ));
+                          ),
+                        );
+                      } else if (desiredStudentProfile.email != '' &&
+                          desiredStudentProfile.password == _passwordTC.text) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                        );
+                      } else {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                            title: const Text('Error'),
+                            content: const Text(
+                              'User not found or incorrect password',
+                            ),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
-                    child: const Text('Sign up'),
+                    child: const Text('Sign in'),
                   ),
                 ],
               ),
             ),
-            // const SizedBox(height: 16),
             const SizedBox(height: 170),
             Center(
               child: Text(
                 "Already have an account? Sign in.",
                 style: TextStyle(fontSize: 16, color: Colors.blueGrey.shade300),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -4,6 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:onboard_animation/data/dummy_data.dart';
 import 'package:onboard_animation/model/Faculty_Profile.dart';
 import 'package:onboard_animation/model/StudentProfile.dart';
+import 'package:onboard_animation/pages/home.dart';
+import 'package:flutter/cupertino.dart';
 
 class Student_signin extends StatelessWidget {
   Student_signin({Key? key}) : super(key: key);
@@ -302,39 +304,77 @@ class Student_signin extends StatelessWidget {
                   String _yop = _yearopSTEC.text;
 
                   StudentProfile newStudent = StudentProfile(
-                      registrationnumber: _reg,
-                      gender: _gender,
-                      programme: _program,
-                      school: _school,
-                      skillsets: _skill,
-                      studentname: _name,
-                      contactnumber: _cono,
-                      linkedinid: _linkedIn,
-                      githubid: _github,
-                      technicallanguages: _techLang,
-                      passoutyear: _yop,
-                      email: _email,
-                      password: _password);
-                  registeredStudent_profile.add(newStudent);
-                  print(newStudent.gender);
+                    registrationnumber: _reg,
+                    gender: _gender,
+                    programme: _program,
+                    school: _school,
+                    skillsets: _skill,
+                    studentname: _name,
+                    contactnumber: _cono,
+                    linkedinid: _linkedIn,
+                    githubid: _github,
+                    technicallanguages: _techLang,
+                    passoutyear: _yop,
+                    email: _email,
+                    password: _password,
+                  );
+                  bool _nnull = newStudent.registrationnumber != '' &&
+                      newStudent.contactnumber != '' &&
+                      newStudent.email != '' &&
+                      newStudent.gender != '' &&
+                      newStudent.githubid != '' &&
+                      newStudent.linkedinid != '' &&
+                      newStudent.passoutyear != '' &&
+                      newStudent.password != '' &&
+                      newStudent.programme != '' &&
+                      newStudent.school != '' &&
+                      newStudent.skillsets != '' &&
+                      newStudent.studentname != '' &&
+                      newStudent.technicallanguages != '';
+                  if (_nnull) {
+                    registeredStudent_profile.add(newStudent);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                    await Supabase.instance.client.from('student').insert({
+                      'reg_no': _reg,
+                      'password': _password,
+                      'name': _name,
+                      'email': _email,
+                      'contact_number': _cono,
+                      'gender': _gender,
+                      'skills': _skill,
+                      'technical_language': _techLang,
+                      'github_id': _github,
+                      'LinkedIn_id': _linkedIn,
+                      'program': _program,
+                      'school': _school,
+                      'year_of_passing': _yop,
+                    });
+                  } else {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (context) => CupertinoAlertDialog(
+                              title: const Text('Error'),
+                              content: const Text(
+                                'User not found or incorrect password',
+                              ),
+                              actions: <Widget>[
+                                CupertinoDialogAction(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ));
+                  }
                   print(registeredStudent_profile.length);
-                  await Supabase.instance.client.from('student').insert({
-                    'reg_no': _reg,
-                    'password': _password,
-                    'name': _name,
-                    'email': _email,
-                    'contact_number': _cono,
-                    'gender': _gender,
-                    'skills': _skill,
-                    'technical_language': _techLang,
-                    'github_id': _github,
-                    'LinkedIn_id': _linkedIn,
-                    'program': _program,
-                    'school': _school,
-                    'year_of_passing': _yop
-                  });
                 },
-                child: const Text('sign in'),
+                child: const Text('Sign in'),
               ),
             ),
             const SizedBox(
