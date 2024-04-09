@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:onboard_animation/data/dummy_data.dart';
+import 'package:onboard_animation/model/Faculty_Profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Faculty_signin extends StatelessWidget {
@@ -216,6 +218,8 @@ class Faculty_signin extends StatelessWidget {
                   String _domain = _domainSTEC.text;
                   String _designation = _designationStec.text;
                   String _linkedIn = _linkedInSTEC.text;
+
+                  registeredFaculty_profile newFaculty = FacultyProfile(empid: empid, email: email, domain: domain, school: school, designation: designation, facultyname: facultyname, contactnumber: contactnumber, linkedinid: linkedinid, password: password);
 
                   await Supabase.instance.client.from('student').insert({
                     'reg_no': _reg,

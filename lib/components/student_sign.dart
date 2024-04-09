@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:onboard_animation/data/dummy_data.dart';
+import 'package:onboard_animation/model/Faculty_Profile.dart';
+import 'package:onboard_animation/model/StudentProfile.dart';
 
 class Student_signin extends StatelessWidget {
   Student_signin({Key? key}) : super(key: key);
@@ -282,39 +285,58 @@ class Student_signin extends StatelessWidget {
             // const SizedBox(height: 16),
             const SizedBox(height: 50),
             Container(
-                child: ElevatedButton(
-                    onPressed: () async {
-                      String _reg = _regSTEC.text;
-                      String _password = _passwordSTEC.text;
-                      String _name = _nameSTEC.text;
-                      String _email = _emailSTEC.text;
-                      String _cono = _contactNumberSTEC.text;
-                      String _gender = _genderSTEC.text;
-                      String _skill = _skillSTEC.text;
-                      String _techLang = _techLanguageSTEC.text;
-                      String _github = _githubIDSTEC.text;
-                      String _linkedIn = _linkedInSTEC.text;
-                      String _program = _programSTEC.text;
-                      String _school = _schoolSTEC.text;
-                      String _yop = _yearopSTEC.text;
+              child: ElevatedButton(
+                onPressed: () async {
+                  String _reg = _regSTEC.text;
+                  String _password = _passwordSTEC.text;
+                  String _name = _nameSTEC.text;
+                  String _email = _emailSTEC.text;
+                  String _cono = _contactNumberSTEC.text;
+                  String _gender = _genderSTEC.text;
+                  String _skill = _skillSTEC.text;
+                  String _techLang = _techLanguageSTEC.text;
+                  String _github = _githubIDSTEC.text;
+                  String _linkedIn = _linkedInSTEC.text;
+                  String _program = _programSTEC.text;
+                  String _school = _schoolSTEC.text;
+                  String _yop = _yearopSTEC.text;
 
-                      await Supabase.instance.client.from('student').insert({
-                        'reg_no': _reg,
-                        'password': _password,
-                        'name': _name,
-                        'email': _email,
-                        'contact_number': _cono,
-                        'gender': _gender,
-                        'skills': _skill,
-                        'technical_language': _techLang,
-                        'github_id': _github,
-                        'LinkedIn_id': _linkedIn,
-                        'program': _program,
-                        'school': _school,
-                        'year_of_passing': _yop
-                      });
-                    },
-                    child: const Text('sign in'))),
+                  StudentProfile newStudent = StudentProfile(
+                      registrationnumber: _reg,
+                      gender: _gender,
+                      programme: _program,
+                      school: _school,
+                      skillsets: _skill,
+                      studentname: _name,
+                      contactnumber: _cono,
+                      linkedinid: _linkedIn,
+                      githubid: _github,
+                      technicallanguages: _techLang,
+                      passoutyear: _yop,
+                      email: _email,
+                      password: _password);
+                  regidteredStudent_profile.add(newStudent);
+                  print(newStudent.gender);
+                  print(regidteredStudent_profile.length);
+                  await Supabase.instance.client.from('student').insert({
+                    'reg_no': _reg,
+                    'password': _password,
+                    'name': _name,
+                    'email': _email,
+                    'contact_number': _cono,
+                    'gender': _gender,
+                    'skills': _skill,
+                    'technical_language': _techLang,
+                    'github_id': _github,
+                    'LinkedIn_id': _linkedIn,
+                    'program': _program,
+                    'school': _school,
+                    'year_of_passing': _yop
+                  });
+                },
+                child: const Text('sign in'),
+              ),
+            ),
             const SizedBox(
               height: 48,
             )
