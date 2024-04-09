@@ -17,5 +17,5 @@ class Sresearchenlisted {
   final String status;
   final String studentname;
   final String researchid;
-  
+
 }
