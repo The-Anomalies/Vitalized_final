@@ -68,11 +68,18 @@ class SignUpForm extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       String desiredId = _registerETC.text;
-                      FacultyProfile? desiredProfile = registeredFaculty_profile.firstWhere(
-                          (faculty) => faculty.id == desiredId,
-                          orElse: () => null);
-
-                      if (desiredProfile != null) {
+                      FacultyProfile? desiredFacultyProfile =
+                          registeredFaculty_profile.firstWhere(
+                              (faculty) => faculty.id == desiredId,
+                              orElse: () => null);
+                      StudentProfile? desiredStudentProfile =
+                          registeredFaculty_profile.firstWhere(
+                              (faculty) => faculty.id == desiredId,
+                              orElse: () => null);
+                      bool auth = (desiredStudentProfile!.password ==
+                              _passwordTC.text ||
+                          desiredFacultyProfile!.password == _passwordTC.text);
+                      if (desiredFacultyProfile != null && auth) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -80,10 +87,20 @@ class SignUpForm extends StatelessWidget {
                                 SignUpForm(), //we have to change this value
                           ),
                         );
-                      }
-                      else
-                      {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('user not found')))
+                      } else if (desiredStudentProfile != null && auth) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SignUpForm(), //we have to change this value
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('user not found'),
+                          ),
+                        );
                       }
                       ;
                     },
