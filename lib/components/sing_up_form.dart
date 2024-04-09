@@ -5,6 +5,8 @@ class SignUpForm extends StatelessWidget {
   SignUpForm({Key? key}) : super(key: key);
   final _registerETC = TextEditingController();
   final _passwordTC = TextEditingController();
+  // final _notesStream =
+  //     Supabase.instance.client.from('student').stream(primaryKey: ['reg_no']);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +22,7 @@ class SignUpForm extends StatelessWidget {
                 fontSize: 26,
               ),
             ),
-            
+
             const SizedBox(height: 16),
             Form(
               child: Column(
@@ -58,14 +60,41 @@ class SignUpForm extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                      onPressed: () async {
-                        String reg = _registerETC.text;
-                        String password = _passwordTC.text;
-                        await Supabase.instance.client
-                            .from('testify')
-                            .insert({'id': reg});
-                      },
-                      child: Text('sign up')),
+                    onPressed: () async {
+                      String emailOrRegNo = _registerETC
+                          .text; // Assuming this can be either email or reg_no
+                      String password = _passwordTC.text;
+                      final sm = ScaffoldMessenger.of(context);
+
+                      // Query the 'student' table for a user with the provided email or reg_no
+                      final response = await Supabase.instance.client
+                          .from('student')
+                          .select(
+                              'password') // Assuming you have a hashed password column
+                          .eq('email',
+                              emailOrRegNo) // or .eq('reg_no', emailOrRegNo) depending on your logic
+                          .single();
+                      print(response);
+                      if (response.isEmpty) {
+                        sm.showSnackBar(const SnackBar(
+                            content:
+                                Text("User not found or an error occurred")));
+                      } else {
+                        // Assuming you have a secure way to compare the hashed passwords
+                        // This is a placeholder for your password comparison logic
+
+                        if (response['password'] == password) {
+                          sm.showSnackBar(const SnackBar(
+                              content:
+                                  Text("You have successfully logged in")));
+                        } else {
+                          sm.showSnackBar(const SnackBar(
+                              content: Text("Incorrect password")));
+                        }
+                      }
+                    },
+                    child: const Text('Sign up'),
+                  ),
                 ],
               ),
             ),
