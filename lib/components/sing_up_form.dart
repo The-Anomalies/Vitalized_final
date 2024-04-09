@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:onboard_animation/data/dummy_data.dart';
+import 'package:onboard_animation/model/Faculty_Profile.dart';
+import 'package:onboard_animation/model/StudentProfile.dart';
 
 class SignUpForm extends StatelessWidget {
   SignUpForm({Key? key}) : super(key: key);
@@ -59,39 +62,30 @@ class SignUpForm extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 24,
+                  ),
                   ElevatedButton(
-                    onPressed: () async {
-                      String emailOrRegNo = _registerETC
-                          .text; // Assuming this can be either email or reg_no
-                      String password = _passwordTC.text;
-                      final sm = ScaffoldMessenger.of(context);
+                    onPressed: () {
+                      String desiredId = _registerETC.text;
+                      FacultyProfile? desiredProfile = registeredFaculty_profile.firstWhere(
+                          (faculty) => faculty.id == desiredId,
+                          orElse: () => null);
 
-                      // Query the 'student' table for a user with the provided email or reg_no
-                      final response = await Supabase.instance.client
-                          .from('student')
-                          .select(
-                              'password') // Assuming you have a hashed password column
-                          .eq('email',
-                              emailOrRegNo) // or .eq('reg_no', emailOrRegNo) depending on your logic
-                          .single();
-                      print(response);
-                      if (response.isEmpty) {
-                        sm.showSnackBar(const SnackBar(
-                            content:
-                                Text("User not found or an error occurred")));
-                      } else {
-                        // Assuming you have a secure way to compare the hashed passwords
-                        // This is a placeholder for your password comparison logic
-
-                        if (response['password'] == password) {
-                          sm.showSnackBar(const SnackBar(
-                              content:
-                                  Text("You have successfully logged in")));
-                        } else {
-                          sm.showSnackBar(const SnackBar(
-                              content: Text("Incorrect password")));
-                        }
+                      if (desiredProfile != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SignUpForm(), //we have to change this value
+                          ),
+                        );
                       }
+                      else
+                      {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('user not found')))
+                      }
+                      ;
                     },
                     child: const Text('Sign up'),
                   ),
@@ -99,7 +93,7 @@ class SignUpForm extends StatelessWidget {
               ),
             ),
             // const SizedBox(height: 16),
-            const SizedBox(height: 200),
+            const SizedBox(height: 170),
             Center(
               child: Text(
                 "Already have an account? Sign in.",

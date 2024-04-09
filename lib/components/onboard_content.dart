@@ -13,6 +13,7 @@ class OnboardContent extends StatefulWidget {
 
 class _OnboardContentState extends State<OnboardContent> {
   late PageController _pageController;
+  int _currentPageIndex = 0;
   // double _progress;
   @override
   void initState() {
@@ -23,13 +24,58 @@ class _OnboardContentState extends State<OnboardContent> {
     super.initState();
   }
 
+  double callWidth() {
+    switch (_currentPageIndex) {
+      case 0:
+        return 80; // Width for page 1
+      case 1:
+        return 100; // Width for page 2
+      case 2:
+        return 180; // Width for page 3
+      case 3:
+        return 280; // Width for page 4
+      default:
+        return 200; // Default width
+    }
+  }
+
+  Widget callText() {
+    switch (_currentPageIndex) {
+      case 0:
+        return const Text('Get Started'); // Width for page 1
+      case 1:
+        return const Text(
+          "Create account",
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        ); // Width for page 2
+      case 2:
+        return const Text(
+          "Are you a faculty?",
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        ); // Width for page 3
+      case 3:
+        return const Text(
+          "Are you a student?",
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        ); // Width for page 4
+      default:
+        return const Text('overflow'); // Default width
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double progress =
         _pageController.hasClients ? (_pageController.page ?? 0) : 0;
 
     return SizedBox(
-      height: 400 + progress * 160,
+      height: 400 + progress * 100,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -39,6 +85,11 @@ class _OnboardContentState extends State<OnboardContent> {
               Expanded(
                 child: PageView(
                   controller: _pageController,
+                  onPageChanged: (int pageIndex) {
+                    setState(() {
+                      _currentPageIndex = pageIndex;
+                    });
+                  },
                   children: [
                     LandingContent(),
                     SignUpForm(),
@@ -51,12 +102,16 @@ class _OnboardContentState extends State<OnboardContent> {
           ),
           Positioned(
             height: 56,
-            bottom: 48 + progress * 180,
+            bottom: 120 - progress * 25,
             right: 16,
             child: GestureDetector(
               onTap: () {
-                if (_pageController.page == 0) {
-                  _pageController.animateToPage(1,
+                if (_pageController.page! < 3) {
+                  _pageController.animateToPage(_currentPageIndex + 1,
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.ease);
+                } else {
+                  _pageController.animateToPage(_currentPageIndex - 1,
                       duration: const Duration(milliseconds: 400),
                       curve: Curves.ease);
                 }
@@ -85,22 +140,29 @@ class _OnboardContentState extends State<OnboardContent> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 92 + progress * 32,
+                        width: 100 + progress * 30,
+                        height: 20,
                         child: Stack(
                           fit: StackFit.passthrough,
                           children: [
                             FadeTransition(
-                              opacity: AlwaysStoppedAnimation(1 - progress),
-                              child: const Text("Get Started"),
+                              opacity: AlwaysStoppedAnimation(
+                                  progress < 0.33 ? 1 : 0),
+                              child: callText(),
                             ),
                             FadeTransition(
-                              opacity: AlwaysStoppedAnimation(progress),
-                              child: const Text(
-                                "Create account",
-                                maxLines: 1,
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                              ),
+                                opacity: AlwaysStoppedAnimation(
+                                    progress > 0.33 && progress < 0.67 ? 1 : 0),
+                                child: callText()),
+                            FadeTransition(
+                              opacity: AlwaysStoppedAnimation(
+                                  progress > 0.67 && progress < 0.99 ? 1 : 0),
+                              child: callText(),
+                            ),
+                            FadeTransition(
+                              opacity: AlwaysStoppedAnimation(
+                                  progress >= 0.99 ? 1 : 0),
+                              child: callText(),
                             ),
                           ],
                         ),

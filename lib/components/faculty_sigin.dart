@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Faculty_signin extends StatelessWidget {
@@ -203,32 +204,37 @@ class Faculty_signin extends StatelessWidget {
             ),
             // const SizedBox(height: 16),
             const SizedBox(height: 100),
-            Center(
-                child: ElevatedButton(
-                    onPressed: () async {
-                      String _reg = _regSTEC.text;
-                      String _password = _passwordSTEC.text;
-                      String _name = _nameSTEC.text;
-                      String _email = _emailSTEC.text;
-                      String _cono = _contactNumberSTEC.text;
-                      String _school = _schoolSTEC.text;
-                      String _domain = _domainSTEC.text;
-                      String _designation = _designationStec.text;
-                      String _linkedIn = _linkedInSTEC.text;
+            Container(
+              child: ElevatedButton(
+                onPressed: () async {
+                  String _reg = _regSTEC.text;
+                  String _password = _passwordSTEC.text;
+                  String _name = _nameSTEC.text;
+                  String _email = _emailSTEC.text;
+                  String _cono = _contactNumberSTEC.text;
+                  String _school = _schoolSTEC.text;
+                  String _domain = _domainSTEC.text;
+                  String _designation = _designationStec.text;
+                  String _linkedIn = _linkedInSTEC.text;
 
-                      await Supabase.instance.client.from('student').insert({
-                        'reg_no': _reg,
-                        'password': _password,
-                        'name': _name,
-                        'email': _email,
-                        'contact_number': _cono,
-                        'designation': _designation,
-                        'LinkedIn_id': _linkedIn,
-                        'school': _school,
-                        'Domain': _domain,
-                      });
-                    },
-                    child: const Text('sign in')))
+                  await Supabase.instance.client.from('student').insert({
+                    'reg_no': _reg,
+                    'password': _password,
+                    'name': _name,
+                    'email': _email,
+                    'contact_number': _cono,
+                    'designation': _designation,
+                    'LinkedIn_id': _linkedIn,
+                    'school': _school,
+                    'Domain': _domain,
+                  });
+                },
+                child: const Text('sign in'),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            )
           ],
         ),
       ),
